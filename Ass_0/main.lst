@@ -1,0 +1,58 @@
+     1                                 %line 1+1 main.asm
+     2                                 [segment .data]
+     3 00000000 0000000000000000       x dq 0
+     4 00000008 00<rept>               s times 64 db 0
+     5 00000048 506C6561736520656E-    msg1 db "Please enter an integer: ", 0
+     6 00000048 74657220616E20696E-
+     7 00000048 74656765723A2000   
+     8 00000062 506C6561736520656E-    msg2 db "Please enter a string: ", 0
+     9 00000062 746572206120737472-
+    10 00000062 696E673A2000       
+    11 0000007A 256400                 integer_format db "%d", 0
+    12 0000007D 257300                 string_format db "%s", 0
+    13 00000080 257300                 msg_format db "%s", 0
+    14 00000083 0A496E707574205374-    output_format db 0x0a, "Input String: %s", 0x0a, "Input Integer: %d", 0x0a, 0
+    15 00000083 72696E673A2025730A-
+    16 00000083 496E70757420496E74-
+    17 00000083 656765723A2025640A-
+    18 00000083 00                 
+    19                                 
+    20                                 [segment .text]
+    21                                 [global main]
+    22                                 [extern scanf]
+    23                                 [extern printf]
+    24                                 
+    25                                 main:
+    26                                 
+    27 00000000 55                      push rbp
+    28 00000001 4889E5                  mov rbp, rsp
+    29                                 
+    30 00000004 488D3C25[00000000]      lea rdi, [msg_format]
+    31 0000000C 488D3425[00000000]      lea rsi, [msg1]
+    32                                 
+    33 00000014 E8(F6FFFFFF)            call printf
+    34                                 
+    35 00000019 488D3C25[00000000]      lea rdi, [integer_format]
+    36 00000021 488D3425[00000000]      lea rsi, [x]
+    37                                 
+    38 00000029 E8(F6FFFFFF)            call scanf
+    39                                 
+    40 0000002E 488D3C25[00000000]      lea rdi, [msg_format]
+    41 00000036 488D3425[00000000]      lea rsi, [msg2]
+    42                                 
+    43 0000003E E8(F6FFFFFF)            call printf
+    44                                 
+    45 00000043 488D3C25[00000000]      lea rdi, [string_format]
+    46 0000004B 488D3425[00000000]      lea rsi, [s]
+    47                                 
+    48 00000053 E8(F6FFFFFF)            call scanf
+    49                                 
+    50 00000058 488D3C25[00000000]      lea rdi, [output_format]
+    51 00000060 488D3425[00000000]      lea rsi, [s]
+    52 00000068 8B1425[00000000]        mov edx, [x]
+    53                                 
+    54 0000006F E8(F6FFFFFF)            call printf
+    55                                 
+    56 00000074 5D                      pop rbp
+    57 00000075 C3                      ret
+    58                                 
