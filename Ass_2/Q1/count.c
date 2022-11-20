@@ -67,9 +67,13 @@ int main(int argc, char* argv[]){
     // printf("%lds %ldms\n", end[0].tv_sec, end[0].tv_nsec);
     // printf("%lds %ldms\n", end[1].tv_sec, end[1].tv_nsec);
     // printf("%lds %ldms\n", end[2].tv_sec, end[2].tv_nsec);
-    printf("%f s\n", time_val[0]);
-    printf("%f s\n", time_val[1]);
-    printf("%f s\n", time_val[2]);
+    // printf("%f s\n", time_val[0]);
+    // printf("%f s\n", time_val[1]);
+    // printf("%f s\n", time_val[2]);
+
+    FILE* fout = fopen("count_time.txt", "a+");
+    fprintf(fout, "%f %f %f\n", time_val[0], time_val[1], time_val[2]);
+    fclose(fout);
 
     return 0;
 
