@@ -1,5 +1,7 @@
-all: count
+all: count compile
 
-main: count.c
+count: count.c
 	gcc count.c -o count
 
+compile: compile.c
+	gcc compile.c -o compile
