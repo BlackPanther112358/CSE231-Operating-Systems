@@ -61,12 +61,12 @@ int main(int argc, char* argv[]){
     time_val[1] = (end[1].tv_sec - begin[1].tv_sec) + ((float)end[1].tv_nsec - begin[1].tv_nsec)/1000000000;
     time_val[2] = (end[2].tv_sec - begin[2].tv_sec) + ((float)end[2].tv_nsec - begin[2].tv_nsec)/1000000000;
 
-    printf("%lds %ldms\n", begin[0].tv_sec, begin[0].tv_nsec);
-    printf("%lds %ldms\n", begin[1].tv_sec, begin[1].tv_nsec);
-    printf("%lds %ldms\n", begin[2].tv_sec, begin[2].tv_nsec);
-    printf("%lds %ldms\n", end[0].tv_sec, end[0].tv_nsec);
-    printf("%lds %ldms\n", end[1].tv_sec, end[1].tv_nsec);
-    printf("%lds %ldms\n", end[2].tv_sec, end[2].tv_nsec);
+    // printf("%lds %ldms\n", begin[0].tv_sec, begin[0].tv_nsec);
+    // printf("%lds %ldms\n", begin[1].tv_sec, begin[1].tv_nsec);
+    // printf("%lds %ldms\n", begin[2].tv_sec, begin[2].tv_nsec);
+    // printf("%lds %ldms\n", end[0].tv_sec, end[0].tv_nsec);
+    // printf("%lds %ldms\n", end[1].tv_sec, end[1].tv_nsec);
+    // printf("%lds %ldms\n", end[2].tv_sec, end[2].tv_nsec);
     printf("%f s\n", time_val[0]);
     printf("%f s\n", time_val[1]);
     printf("%f s\n", time_val[2]);
