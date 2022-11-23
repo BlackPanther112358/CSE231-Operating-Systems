@@ -1,2 +1,4 @@
 #!/bin/bash
-echo "RAN A"
+mkdir kernel_A
+mv linux-5.19.9 kernel_A
+cd kernel_A
