@@ -8,11 +8,20 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <time.h>
+#include <sched.h>
 
 pid_t pids[3];
 struct timespec begin[3];
 struct timespec end[3];
 float time_val[3];
+
+int OTHER_PRIORITY;
+int RR_PRIORITY;
+int FIFO_PRIORITY;
+
+struct sched_param param1;
+struct sched_param param2;
+struct sched_param param3;
 
 const char* COMPILE_A = "./runA.sh";
 const char* COMPILE_B = "./runB.sh";
@@ -30,7 +39,11 @@ void setEnd(pid_t pid, struct timespec end_time){
     for(int i = 0; i < 3; i++) if(pids[i] == pid) end[i] = end_time;
 }
 
-int main(){
+int main(int argc, char* argv[]){
+
+    OTHER_PRIORITY = atoi(argv[1]);
+    RR_PRIORITY = atoi(argv[2]);
+    FIFO_PRIORITY = atoi(argv[3]);
 
     pid_t child_pid, wpid;
     int status = 0;
@@ -40,9 +53,9 @@ int main(){
         clock_gettime(CLOCK_REALTIME, &curr_time); 
         setBegin(i, curr_time);
         if((child_pid = fork()) == 0){
-            if(i == 0) execvp(COMPILE_A, NULL);
-            else if(i == 1) execvp(COMPILE_B, NULL);
-            else if(i == 2) execvp(COMPILE_C, NULL);
+            if(i == 0) {param1.sched_priority = OTHER_PRIORITY; sched_setscheduler(child_pid, SCHED_OTHER, &param1); perror("OTHER"); execvp(COMPILE_A, NULL);}
+            else if(i == 1) {param2.sched_priority = RR_PRIORITY; sched_setscheduler(child_pid, SCHED_RR, &param2); perror("RR"); execvp(COMPILE_B, NULL);}
+            else if(i == 2) {param3.sched_priority = FIFO_PRIORITY; sched_setscheduler(child_pid, SCHED_FIFO, &param3); perror("FIFO"); execvp(COMPILE_C, NULL);}
             exit(0);
         }else setPid(i, child_pid);
     }
