@@ -14,9 +14,9 @@ struct timespec begin[3];
 struct timespec end[3];
 float time_val[3];
 
-const char* SCRIPT_A = "./runA.sh";
-const char* SCRIPT_B = "./runB.sh";
-const char* SCRIPT_C = "./runC.sh";
+const char* COMPILE_A = "./runA.sh";
+const char* COMPILE_B = "./runB.sh";
+const char* COMPILE_C = "./runC.sh";
 
 void setPid(int idx, pid_t pid){
     pids[idx] = pid;
@@ -40,9 +40,9 @@ int main(){
         clock_gettime(CLOCK_REALTIME, &curr_time); 
         setBegin(i, curr_time);
         if((child_pid = fork()) == 0){
-            if(i == 0) execvp(SCRIPT_A, NULL);
-            else if(i == 1) execvp(SCRIPT_B, NULL);
-            else if(i == 2) execvp(SCRIPT_C, NULL);
+            if(i == 0) execvp(COMPILE_A, NULL);
+            else if(i == 1) execvp(COMPILE_B, NULL);
+            else if(i == 2) execvp(COMPILE_C, NULL);
             exit(0);
         }else setPid(i, child_pid);
     }
