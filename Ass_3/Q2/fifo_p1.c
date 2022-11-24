@@ -10,13 +10,14 @@
 #include <sys/types.h>
 #include <time.h>
 
-#define array_size 5                           // Total number of strings
+#define array_size 50                           // Total number of strings
 #define string_length 10                        // Length of each string
 #define block_size 5                            // Number of strings to be sent at a time
-#define fifo_path_sender "fifo1.txt"            // Path of the writer fifo file
-#define fifo_path_receiver "fifo2.txt"          // Path of the reader fifo file
+#define fifo_path_sender "fifo1"            // Path of the writer fifo file
+#define fifo_path_receiver "fifo2"          // Path of the reader fifo file
 
 char string_array[array_size][string_length + 1];
+struct timespec begin, end;
 
 void generate_string_array(){
     for(int i = 0; i < array_size; i++){
@@ -38,13 +39,15 @@ int main(){
     srand(time(NULL));
 
     generate_string_array();
-    print_string_array();
+    // print_string_array();
 
     int index = 0;
-    mkfifo(fifo_path_sender, 0666);
-    mkfifo(fifo_path_receiver, 0666);
+    // mkfifo(fifo_path_sender, 0666);
+    // mkfifo(fifo_path_receiver, 0666);
 
-    sleep(5);
+    // sleep(5);
+
+    clock_gettime(CLOCK_REALTIME, &begin);
 
     while(index < array_size){
 
@@ -71,7 +74,7 @@ int main(){
         }
         close(fd_send);
 
-        sleep(10);
+        // sleep(10);
 
         int fd_rcv = open(fifo_path_receiver, O_RDONLY);
         read(fd_rcv, (void *)(&index), sizeof(int));
@@ -79,6 +82,11 @@ int main(){
         close(fd_rcv);
 
     } 
+
+    clock_gettime(CLOCK_REALTIME, &end);
+    float runtime = (end.tv_sec - begin.tv_sec) + (end.tv_nsec - begin.tv_nsec) / 1000000000.0;
+
+    printf("Runtime: %f\n", runtime);
 
     return 0;
 
