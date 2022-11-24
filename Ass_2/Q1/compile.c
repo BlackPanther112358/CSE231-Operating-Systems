@@ -23,9 +23,12 @@ struct sched_param param1;
 struct sched_param param2;
 struct sched_param param3;
 
-const char* COMPILE_A = "./runA.sh";
-const char* COMPILE_B = "./runB.sh";
-const char* COMPILE_C = "./runC.sh";
+const char* COMPILE_A = "./compileA.sh";
+const char* COMPILE_B = "./compileB.sh";
+const char* COMPILE_C = "./compileC.sh";
+const char* CLEAN_A = "./cleanA.sh";
+const char* CLEAN_B = "./cleanB.sh";
+const char* CLEAN_C = "./cleanC.sh";
 
 void setPid(int idx, pid_t pid){
     pids[idx] = pid;
@@ -75,6 +78,9 @@ int main(int argc, char* argv[]){
     // printf("%f s\n", time_val[0]);
     // printf("%f s\n", time_val[1]);
     // printf("%f s\n", time_val[2]);
+    execvp(CLEAN_A, NULL)
+    execvp(CLEAN_B, NULL)
+    execvp(CLEAN_C, NULL)
 
     FILE* fout = fopen("compile_time.txt", "a+");
     fprintf(fout, "%f %f %f\n", time_val[0], time_val[1], time_val[2]);
