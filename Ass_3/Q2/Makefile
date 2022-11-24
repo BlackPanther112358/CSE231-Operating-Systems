@@ -22,6 +22,7 @@ run_fifo:
 run_socket:
 	make socket
 	./sockets_p1 & ./sockets_p2
+	rm socket
 
 run_shm:
 	make shm
