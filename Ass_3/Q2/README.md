@@ -19,3 +19,9 @@ To run the program, first $cd$ into the directory and run the following command:
 ```make run_socket```
 
 ### SHARED MEMORY
+
+We will create a shared memory segment and use it to communicate between processes. To ensure that the data is not lost, we will use semaphores to lock the shared memory segment while writing to it and unlock it after writing to it, along with sleep statements to ensure that the processes can alternate between writing and reading.
+
+To run the program, first $cd$ into the directory and run the following command:
+
+```make run_shm```

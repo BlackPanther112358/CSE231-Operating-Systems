@@ -24,6 +24,7 @@
 key_t SHM_KEY;
 sem_t *sem;
 char string_array[array_size][string_length + 1];
+struct timespec begin, end;
 
 void generate_string_array(){
     for(int i = 0; i < array_size; i++){
@@ -58,11 +59,9 @@ int main(){
     sem = sem_open(SEM_NAME, O_CREAT, 0666, 1);
     if(sem == SEM_FAILED) {perror("sem_open error"); exit(1);}
 
-    printf("HERE\n");
-
     sem_wait(sem);
 
-    printf("HERE\n");
+    clock_gettime(CLOCK_REALTIME, &begin);
 
     char data[5*(string_length + 4)] = {0};
     for(int i = 0; i < block_size; i++){
@@ -118,7 +117,12 @@ int main(){
         sleep(5);
     }
 
+    clock_gettime(CLOCK_REALTIME, &end);
+    float runtime = (end.tv_sec - begin.tv_sec) + (end.tv_nsec - begin.tv_nsec) / 1000000000.0;
+
     sem_unlink(SEM_NAME);
+
+    printf("Runtime: %f\n", runtime);
 
     return 0;
 
