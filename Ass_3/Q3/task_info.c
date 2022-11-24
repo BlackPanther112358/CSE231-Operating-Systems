@@ -13,7 +13,7 @@
 
 MODULE_DESCRIPTION("Module to extract task struct information from a given PID");
 MODULE_AUTHOR("BlackPanther112358");
-MODULE_LICENSE("MIT");
+MODULE_LICENSE("GPL");
  
 static unsigned long **sys_call_table; 
 static asmlinkage int (*original_call)(int, int); 
