@@ -6,7 +6,7 @@ To avoid deadlock, every philosopher always prefers the fork with minimal index 
 
 ## PART A
 
-Initially we will use strict resource ordering (using the mutex locks) to simulate the forks. Every philosopher will then use mutex to try to access his foremost preferred fork. Once that is acquired, he will then acquire the other fork similarly. Once both forks are available, he will start to eat.
+For first part, we have to use resource hierarchy to avoid deadlock, thus all the philosophers are left handed except the $5^{th}$ who is right handed. This ensures that all the philosophers will pick up the fork with the lower index first, thus avoiding deadlock. To simulate this, we will use busy waiting as we cannot use any synchronization primitives. Also, as a result of not using synchronization primitives, we can possibly have a race condition where $2$ philosophers pick up the same fork.
 
 The philosopher will then eat for random time between 10 and 20 seconds, both included. Once he is done eating, he will put down both forks and start thinking for some time (between 10 and 20 seconds).
 
