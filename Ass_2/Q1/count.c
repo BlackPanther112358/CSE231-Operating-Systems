@@ -72,7 +72,7 @@ int main(int argc, char* argv[]){
     // printf("%f s\n", time_val[2]);
 
     FILE* fout = fopen("count_time.txt", "a+");
-    fprintf(fout, "%f %f %f\n", time_val[0], time_val[1], time_val[2]);
+    fprintf(fout, "%d %d %d %f %f %f\n", OTHER_PRIORITY, RR_PRIORITY, FIFO_PRIORITY, time_val[0], time_val[1], time_val[2]);
     fclose(fout);
 
     return 0;
