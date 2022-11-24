@@ -42,10 +42,6 @@ int main(){
     // print_string_array();
 
     int index = 0;
-    // mkfifo(fifo_path_sender, 0666);
-    // mkfifo(fifo_path_receiver, 0666);
-
-    // sleep(5);
 
     clock_gettime(CLOCK_REALTIME, &begin);
 
@@ -73,8 +69,6 @@ int main(){
             printf("Sent: %s\n", s);
         }
         close(fd_send);
-
-        // sleep(10);
 
         int fd_rcv = open(fifo_path_receiver, O_RDONLY);
         read(fd_rcv, (void *)(&index), sizeof(int));

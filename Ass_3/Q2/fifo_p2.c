@@ -26,13 +26,7 @@ void print_string_array(){
 
 int main(){
 
-    // print_string_array();
-
     int index = 0;
-    // mkfifo(fifo_path_sender, 0666);
-    // mkfifo(fifo_path_receiver, 0666);
-
-    // sleep(5);
 
     while(index < array_size){
 
@@ -43,14 +37,11 @@ int main(){
         if(res == -1) perror("Read error P2");
         while(res > 0){
             printf("Received: %s\n", s);
-            // printf("Received: %d\n", res);
             char idx[2];
             idx[0] = s[0];
             idx[1] = s[1];
             idx[2] = '\0';            
-            // printf("Received index: %s\n", idx);
             index = atoi(idx);
-            // printf("Received index: %d\n", index);
             for(int i = 3; i < string_length + 4; i++) string_array[index - 1][i - 3] = s[i];
             for(int i = 0; i < string_length + 4; i++) s[i] = '-';
             res = read(fd_rcv, (&s), string_length + 4);
@@ -58,7 +49,6 @@ int main(){
         }
         close(fd_rcv);
 
-        // print_string_array();
         int fd_send = open(fifo_path_sender, O_WRONLY);
         write(fd_send, (&index), sizeof(int));
         printf("Sent: %d\n", index);
