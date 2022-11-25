@@ -1,6 +1,7 @@
-exit: exit.asm
-	yasm -f elf64 -l exit.lst exit.asm
-	gcc -no-pie -o exit exit.o
+obj-m += hello.o
 
-clean: 
-	rm *.lst *.o exit
+all:
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+
+clean:
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
