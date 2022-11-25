@@ -19,20 +19,23 @@ static unsigned long **sys_call_table;
 static asmlinkage int (*original_call)(int, int); 
 
 static asmlinkage int our_sys_open(int x, int y){ 
-    struct pid *pid_struct;
-    struct task_struct *task;
-    // We use the variable x to pass our pid to the kernel module
-    pid_struct = find_get_pid(x);
-    if(pid_struct == NULL){
-        printk(KERN_INFO "PID not found");
-        return -1;
-    }
 
-    task = pid_task(pid_struct, PIDTYPE_PID);
+    printk(KERN_INFO "Fuck OS\n");
 
-    for_each_process(task){
-        printk("Task %s (pid = %d)\n", task->comm, task_pid_nr(task));
-    }
+    // struct pid *pid_struct;
+    // struct task_struct *task;
+    // // We use the variable x to pass our pid to the kernel module
+    // pid_struct = find_get_pid(x);
+    // if(pid_struct == NULL){
+    //     printk(KERN_INFO "PID not found");
+    //     return -1;
+    // }
+
+    // task = pid_task(pid_struct, PIDTYPE_PID);
+
+    // for_each_process(task){
+    //     printk("Task %s (pid = %d)\n", task->comm, task->pid);
+    // }
 
     return 0;
 } 
