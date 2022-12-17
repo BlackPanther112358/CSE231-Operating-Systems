@@ -103,17 +103,11 @@ int main(){
     generate_bowls();
     generate_philosophers();
 
-    pthread_create(&philosophers[0].pid, NULL, philosopher_simulate, &philosophers[0]);
-    pthread_create(&philosophers[1].pid, NULL, philosopher_simulate, &philosophers[1]);
-    pthread_create(&philosophers[2].pid, NULL, philosopher_simulate, &philosophers[2]);
-    pthread_create(&philosophers[3].pid, NULL, philosopher_simulate, &philosophers[3]);
-    pthread_create(&philosophers[4].pid, NULL, philosopher_simulate, &philosophers[4]);
+    for(int i = 0; i < PHILOSOPHER_CNT; i++)
+        pthread_create(&philosophers[i].pid, NULL, philosopher_simulate, &philosophers[i]);
 
-    pthread_join(philosophers[0].pid, NULL);
-    pthread_join(philosophers[1].pid, NULL);
-    pthread_join(philosophers[2].pid, NULL);
-    pthread_join(philosophers[3].pid, NULL);
-    pthread_join(philosophers[4].pid, NULL);
+    for(int i = 0; i < PHILOSOPHER_CNT; i++)
+        pthread_join(philosophers[i].pid, NULL);
 
     return 0;
 
