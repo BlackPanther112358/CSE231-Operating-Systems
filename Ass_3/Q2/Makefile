@@ -1,6 +1,6 @@
-all: sockets fifo shm
+all: socket fifo shm
 
-sockets: sockets_p1.c sockets_p2.c
+socket: sockets_p1.c sockets_p2.c
 	gcc sockets_p1.c -o sockets_p1
 	gcc sockets_p2.c -o sockets_p2
 
