@@ -13,7 +13,7 @@
 #define array_size 50           // Total number of strings
 #define string_length 10        // Length of each string
 #define block_size 5            // Number of strings to be sent at a time
-#define fifo_path "fifo.txt"  // Path of the fifo file
+#define fifo_path "fifo.txt"    // Path of the fifo file
 
 char string_array[array_size][string_length + 1];
 
