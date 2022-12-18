@@ -7,6 +7,7 @@
 #include <time.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <semaphore.h>
 
 #define PHILOSOPHER_CNT 5   // Set number of Philosophers
 #define HUNGER 2            // Set number of times each philosopher eats
@@ -19,7 +20,7 @@ typedef struct FORK{
 
 typedef struct BOWL{
     int id;
-    pthread_mutex_t *bowl;
+    sem_t *bowl;
 }BOWL;
 
 typedef struct PHILOSOPHER{
@@ -29,7 +30,7 @@ typedef struct PHILOSOPHER{
     int hunger;
     pthread_mutex_t *left_fork;
     pthread_mutex_t *right_fork;
-    pthread_mutex_t *bowl;
+    sem_t *bowl;
 }PHILOSOPHER;
 
 FORK forks[PHILOSOPHER_CNT];
@@ -51,8 +52,8 @@ void generate_forks(){
 void generate_bowls(){
     for(int i = 0; i < BOWL_CNT; i++){
         bowls[i].id = i;
-        bowls[i].bowl = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-        pthread_mutex_init(bowls[i].bowl, NULL);
+        bowls[i].bowl = (sem_t *)malloc(sizeof(sem_t));
+        sem_init(bowls[i].bowl, 0, 1);
     }
 }
 
@@ -79,16 +80,14 @@ void* philosopher_simulate(void *arg){
             pthread_mutex_lock(philosopher->right_fork);
         }
         int val = -1;
-        if((val = pthread_mutex_trylock(bowls[0].bowl)) == 0) philosopher->bowl = bowls[0].bowl;
-        else{
-            pthread_mutex_lock(bowls[1].bowl);
-            philosopher->bowl = bowls[1].bowl;
-        }
+        sem_getvalue(bowls[0].bowl, &val);
+        if(val) {sem_wait(bowls[0].bowl); philosopher->bowl = bowls[0].bowl;}
+        else {sem_wait(bowls[1].bowl); philosopher->bowl = bowls[1].bowl;}
         printf("Philosopher %d is eating\n", philosopher->id);
         sleep(get_random_integer());
         pthread_mutex_unlock(philosopher->left_fork);
         pthread_mutex_unlock(philosopher->right_fork);
-        pthread_mutex_unlock(philosopher->bowl);
+        sem_post(philosopher->bowl);
         printf("Philosopher %d is thinking\n", philosopher->id);
         sleep(get_random_integer());
     }
