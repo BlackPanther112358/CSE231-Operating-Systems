@@ -12,9 +12,9 @@ The philosopher will then eat for random time between 10 and 20 seconds, both in
 
 This process will run a certain number of times for every philosopher, indicated by the magic number $HUNGER$ in the code, after which the philosopher leaves the table.
 
-For second part, we will repeat the above process using semaphores instead of mutex locks.
+For second part, we cannot use resource hierachy. Thus, we will make a helper function, $\small{pick\_forks}$, which will try to acquire both forks. If both are available, it will return $1$, else it will return $0$. This will be called by the philosopher thread, which will then eat if the function returns $1$.
 
-#### $\underline{IMPLEMENTATION}$
+#### <u>IMPLEMENTATION</u>
 
 We use 2 magic numbers, $\small{PHILOSOPHER\_CNT}$ to represent number of philosophers and $\small{HUNGER}$ to represent the number of times a philosopher will eat and think.
 
@@ -30,7 +30,7 @@ We now also need $1$ of the $2$ available sauce bowls to eat. Also any philosoph
 
 Thus, a philosopher will first try to acquire both forks and then the sauce bowl. This ensures there is no deadlock as every philosopher will first ensure that he has both forks before trying to acquire the sauce bowl.
 
-#### $\underline{IMPLEMENTATION}$
+#### <u>IMPLEMENTATION</u>
 
 We need to add another struct to our code, $\small{BOWL}$, which will have the semaphore for the bowl. We will then add another field to the $\small{PHILOSOPHER}$ struct, which will be the reference to the semaphore in the $\small{BOWL}$ struct. We also define another magic number, $\small{BOWL\_CNT}$, which will be the number of sauce bowls available. 
 
