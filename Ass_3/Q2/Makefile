@@ -12,3 +12,15 @@ shm: shm_p1.c shm_p2.c
 	gcc shm_p1.c -o shm_p1
 	gcc shm_p2.c -o shm_p2
 
+run_fifo:
+	make fifo
+	./fifo_p1 & ./fifo_p2
+
+run_socket:
+	make socket
+	./sockets_p1 & ./sockets_p2
+
+run_shm:
+	make shm
+	./shm_p1 & ./shm_p2
+
