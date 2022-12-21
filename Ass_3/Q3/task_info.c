@@ -1,16 +1,16 @@
-#include <linux/kernel.h>
-#include <linux/module.h>
 #include <linux/moduleparam.h>
 #include <linux/unistd.h>
-#include <linux/version.h> 
-#include <linux/sched.h> 
+#include <linux/kernel.h>
 #include <linux/uaccess.h> 
-#include <linux/kprobes.h> 
-#include <linux/kallsyms.h>
-#include <linux/delay.h> 
-#include <linux/string.h>
 #include <linux/signal.h>
 #include <linux/limits.h>
+#include <linux/delay.h> 
+#include <linux/string.h>
+#include <linux/module.h>
+#include <linux/kprobes.h> 
+#include <linux/kallsyms.h>
+#include <linux/version.h> 
+#include <linux/sched.h> 
 
 #define KERNEL_READ_TASK 451
 
@@ -24,22 +24,24 @@ static asmlinkage int (*original_call)(int, int);
 
 static asmlinkage int task_struct_info(int x, int y){ 
 
-    printk(KERN_INFO "Fuck OS\n");
+    struct pid *pid_struct;
+    struct task_struct *task;
 
-    // struct pid *pid_struct;
-    // struct task_struct *task;
-    // // We use the variable x to pass our pid to the kernel module
-    // pid_struct = find_get_pid(x);
-    // if(pid_struct == NULL){
-    //     printk(KERN_INFO "PID not found");
-    //     return -1;
-    // }
+    // We use the variable x to pass our pid to the kernel module
+    pid_struct = find_get_pid(x);
+    if(pid_struct == NULL){
+        printk(KERN_INFO "PID not found");
+        return -1;
+    }
 
-    // task = pid_task(pid_struct, PIDTYPE_PID);
+    task = pid_task(pid_struct, PIDTYPE_PID);
 
-    // for_each_process(task){
-    //     printk("Task %s (pid = %d)\n", task->comm, task->pid);
-    // }
+    for_each_process(task){
+        printk("Task %s (pid = %d)\n", task->comm, task->pid);
+        printk("User ID: %d", task->cred->uid.val);
+        printk("PGID: %d", pid_vnr(task_pgrp(task_struct)));
+        printk("Command Path: /proc/%d/exe", task->pid);
+    }
 
     return 0; 
 } 
