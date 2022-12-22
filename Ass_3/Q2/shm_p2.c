@@ -19,7 +19,7 @@
 #define block_size 5
 #define SHM_SIZE 1024
 #define SHM_NAME "/tmp"
-#define SEM_NAME "sem_shm2"
+#define SEM_NAME "sem_shm3"
 
 key_t SHM_KEY;
 sem_t *sem;
@@ -47,7 +47,7 @@ int main(){
 
         char data[5*(string_length + 1)] = {0};
         memcpy(data, shm, 5*(string_length + 1));
-        printf("Recieved %s\n", data);
+        // printf("Recieved %s\n", data);
         int itr = 0;
         for(int i = 0; i < block_size; i++){
             char idx[2];
@@ -56,6 +56,10 @@ int main(){
             idx[2] = '\0';
             itr++;
             index = atoi(idx);
+            if(index > array_size){
+                printf("Recieved all the strings\n");
+                break;
+            }else printf("Recieved ID: %d\n", index);
             for(int j = 0; j < string_length; j++){
                 string_array[index - 1][j] = data[itr];
                 itr++;
@@ -63,7 +67,7 @@ int main(){
         }
 
         sprintf(shm, "%d", index);
-        printf("Sent %d\n", index);
+        printf("Acknowledge ID: %d\n", index);
 
         sem_post(sem);
 

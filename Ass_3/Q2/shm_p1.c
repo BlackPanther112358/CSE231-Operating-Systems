@@ -19,7 +19,7 @@
 #define block_size 5
 #define SHM_SIZE 1024
 #define SHM_NAME "/tmp"
-#define SEM_NAME "sem_shm2"
+#define SEM_NAME "sem_shm3"
 
 key_t SHM_KEY;
 sem_t *sem;
@@ -84,7 +84,7 @@ int main(){
         sem_wait(sem);
 
         index = atoi(shm);
-        printf("Recieved: %d\n", index);
+        printf("Recieved ID: %d\n", index);
 
         if(index >= array_size){
             printf("All strings sent\n");
@@ -94,7 +94,10 @@ int main(){
 
         char data[5*(string_length + 4)] = {0};
         for(int i = 0; i < block_size; i++){
-            if((index + i)< 9){
+            if((index + i) >= array_size){
+                strcat(data, "99");
+                for(int j = 0; j < (string_length + 1); j++) strcat(data, " ");
+            }else if((index + i)< 9){
                 char num[1];
                 sprintf(num, "%d", index + i + 1);
                 strcat(data, "0");
