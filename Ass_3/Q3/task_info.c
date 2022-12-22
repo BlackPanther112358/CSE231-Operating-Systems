@@ -20,11 +20,12 @@ static int pid = -1;
 module_param(pid, int, 0);
 
 static int task_info_start(void){
-
-    printk(KERN_INFO "Module Loaded with pid: %d\n", pid);
     
+    char pth[1024];
     struct pid *pid_struct;
     struct task_struct *task;
+
+    printk(KERN_INFO "Module Loaded with pid: %d\n", pid);
 
     pid_struct = find_get_pid(pid);
     if(pid_struct == NULL){
@@ -35,10 +36,12 @@ static int task_info_start(void){
     task = pid_task(pid_struct, PIDTYPE_PID);
 
     for_each_process(task){
-        printk("Task %s (pid = %d)\n", task->comm, task->pid);
-        printk("User ID: %d", task->cred->uid.val);
-        printk("PGID: %d", pid_vnr(task_pgrp(task)));
-        printk("Command Path: /proc/%d/exe", task->pid);
+        printk(KERN_INFO "Task %s (pid = %d)\n", task->comm, task->pid);
+        printk(KERN_INFO "User ID: %d", task->cred->uid.val);
+        printk(KERN_INFO "PGID: %d", pid_vnr(task_pgrp(task)));
+        sprintf(pth, "/proc/%d/exe", task->pid);
+        printk(KERN_INFO "Command Path: %s", pth);
+        // printk(KERN_INFO "Command Path: %s", realpath(pth));
     }
 
     return 0;
