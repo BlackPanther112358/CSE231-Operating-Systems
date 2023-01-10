@@ -28,7 +28,7 @@ The program can be executed from [main](Ass_1/main.c) file after compliling use 
 
 The [first part](Ass_2/Q1) of assignment involves running processes in a linux kernel using Threads and Forks, and timing the change in runtimes when using different priority values and scheduling policies.
 
-The [second question](Ass_2/Q2) involves adding a syscall to the linux kernel to copy a 2D matrix from user. A [diff](Ass_2/Q2/diff.patch) can be found for changes made for same along with code to [test]((Ass_2/Q2/test_syscall.c) it.
+The [second question](Ass_2/Q2) involves adding a syscall to the linux kernel to copy a 2D matrix from user. A [diff](Ass_2/Q2/diff.patch) can be found for changes made for same along with code to [test](Ass_2/Q2/test_syscall.c) it.
 
 ### [Ass 3](Assignments/Operating_Systems___M22__A3.pdf)
 
